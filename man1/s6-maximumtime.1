@@ -1,0 +1,132 @@
+.Dd April 17, 2022
+.Dt S6-MAXIMUMTIME 1
+.Os
+.Sh NAME
+.Nm s6-maximumtime
+.Nd execute a program with a time limit
+.Sh SYNOPSIS
+.Nm
+.Op Fl 0 | Fl a | Fl b | Fl i | Fl k | Fl q | Fl t | Fl x | Fl 1 | Fl 2
+.Ar milli
+.Ar prog...
+.Sh DESCRIPTION
+.Nm
+forks and
+.Xr exec 3 Ns
+s
+.Ar prog...
+as a child.
+.Pp
+If
+.Ar milli
+milliseconds elapse before
+.Ar prog
+exits,
+.Nm
+sends it a signal and exits 99 with a message.
+.Pp
+Else
+.Nm
+exits with the same exit code as
+.Ar prog .
+.Pp
+If
+.Ar milli
+is 0, then it's interpreted as infinite: no time limit will be
+enforced.
+.Sh OPTIONS
+.Bl -tag -width x
+.It Fl 0
+On timeout, do not send any signal, just exit.
+.It Fl a
+On timeout, send a
+.Dv SIGALRM .
+.It Fl b
+On timeout, send a
+.Dv SIGABRT .
+.It Fl i
+On timeout, send a
+.Dv SIGINT .
+.It Fl k
+On timeout, send a
+.Dv SIGKILL .
+.It Fl q
+On timeout, send a
+.Dv SIGQUIT .
+.It Fl t
+On timeout, send a
+.Dv SIGTERM -
+this is the default.
+.It Fl x
+On timeout, send a
+.Dv SIGXCPU .
+.It Fl 1
+On timeout, send a
+.Dv SIGUSR1 .
+.It Fl 2
+On timeout, send a
+.Dv SIGUSR2 .
+.El
+.Sh EXIT STATUS
+.Bl -tag -width x
+.It 99
+Timeout.
+.It 111
+Temporary error.
+.It 100
+Permanent error, such as a misuse.
+.It 127
+Unable to execute program - not found.
+.It 126
+Unable to execute program - other reason.
+.El
+.Sh SEE ALSO
+.Xr s6-basename 1 ,
+.Xr s6-cat 1 ,
+.Xr s6-chmod 1 ,
+.Xr s6-chown 1 ,
+.Xr s6-clock 1 ,
+.Xr s6-cut 1 ,
+.Xr s6-dirname 1 ,
+.Xr s6-dumpenv 1 ,
+.Xr s6-echo 1 ,
+.Xr s6-env 1 ,
+.Xr s6-expr 1 ,
+.Xr s6-false 1 ,
+.Xr s6-format-filter 1 ,
+.Xr s6-grep 1 ,
+.Xr s6-head 1 ,
+.Xr s6-hiercopy 1 ,
+.Xr s6-linkname 1 ,
+.Xr s6-ln 1 ,
+.Xr s6-ls 1 ,
+.Xr s6-mkdir 1 ,
+.Xr s6-mkfifo 1 ,
+.Xr s6-nice 1 ,
+.Xr s6-nuke 1 ,
+.Xr s6-pause 1 ,
+.Xr s6-printenv 1 ,
+.Xr s6-quote 1 ,
+.Xr s6-quote-filter 1 ,
+.Xr s6-rename 1 ,
+.Xr s6-rmrf 1 ,
+.Xr s6-seq 1 ,
+.Xr s6-sleep 1 ,
+.Xr s6-sort 1 ,
+.Xr s6-sync 1 ,
+.Xr s6-tai64ndiff 1 ,
+.Xr s6-tail 1 ,
+.Xr s6-test 1 ,
+.Xr s6-touch 1 ,
+.Xr s6-true 1 ,
+.Xr s6-uniquename 1 ,
+.Xr s6-unquote 1 ,
+.Xr s6-unquote-filter 1 ,
+.Xr s6-update-symlinks 1 ,
+.Xr seekablepipe 1
+.Pp
+This man page is ported from the authoritative documentation at:
+.Lk https://skarnet.org/software/s6-portable-utils/s6-maximumtime.html
+.Sh AUTHORS
+.An Laurent Bercot
+.An Alexis Ao Mt flexibeast@gmail.com Ac (man page port)

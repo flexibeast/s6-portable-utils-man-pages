@@ -1,0 +1,117 @@
+.Dd April 18, 2022
+.Dt S6-TAI64NDIFF 1
+.Os
+.Sh NAME
+.Nm s6-tai64ndiff
+.Nd show time difference between two TAI64N-timestamped lines
+.Sh SYNOPSIS
+.Nm
+.Sh DESCRIPTION
+.Nm
+acts as a filter, reading from stdin and writing to stdout.
+It expects every line of its input to begin with a TAI64N[1]
+timestamp.
+It replaces this timestamp with a prefix showing the time difference
+between this line and the previous line.
+.Pp
+.Nm
+exits 0 when it sees the end of stdin.
+If there's an unfinished line,
+.Nm
+processes it and writes it before exiting.
+.Pp
+The prefix it prints is of the form
+.sp
+.D1 [ \& Va seconds . Ns Va microseconds \& ]
+.sp
+in decimal.
+It can be interpreted as a fixed-point decimal number of seconds that
+elapsed between the timestamp on the previous line and the timestamp
+on the current line.
+.Pp
+If the difference isn't defined,
+.Va seconds
+and
+.Va microseconds
+are just whitespace.
+The difference is not defined on the first line of stdin or on
+non-timestamped lines.
+Following non-timestamped lines, the difference may not be accurate.
+.Pp
+The typical use case of
+.Nm
+is to read files that have been filtered through
+.Xr s6-tai64n 1 ,
+or log files that have been produced by
+.Xr s6-log 1
+with the
+.Ql t
+directive.
+.Pp
+The difference is a signed number.
+Negative numbers probably indicate a backwards clock jump, which is a
+bad thing to have on a system.
+.Sh EXIT STATUS
+.Bl -tag -width x
+.It 111
+Temporary error.
+.It 100
+Permanent error, such as a misuse.
+.It 127
+Unable to execute program - not found.
+.It 126
+Unable to execute program - other reason.
+.El
+.Sh SEE ALSO
+.Xr s6-basename 1 ,
+.Xr s6-cat 1 ,
+.Xr s6-chmod 1 ,
+.Xr s6-chown 1 ,
+.Xr s6-clock 1 ,
+.Xr s6-cut 1 ,
+.Xr s6-dirname 1 ,
+.Xr s6-dumpenv 1 ,
+.Xr s6-echo 1 ,
+.Xr s6-env 1 ,
+.Xr s6-expr 1 ,
+.Xr s6-false 1 ,
+.Xr s6-format-filter 1 ,
+.Xr s6-grep 1 ,
+.Xr s6-head 1 ,
+.Xr s6-hiercopy 1 ,
+.Xr s6-linkname 1 ,
+.Xr s6-ln 1 ,
+.Xr s6-ls 1 ,
+.Xr s6-maximumtime 1 ,
+.Xr s6-mkdir 1 ,
+.Xr s6-mkfifo 1 ,
+.Xr s6-nice 1 ,
+.Xr s6-nuke 1 ,
+.Xr s6-pause 1 ,
+.Xr s6-printenv 1 ,
+.Xr s6-quote 1 ,
+.Xr s6-quote-filter 1 ,
+.Xr s6-rename 1 ,
+.Xr s6-rmrf 1 ,
+.Xr s6-seq 1 ,
+.Xr s6-sleep 1 ,
+.Xr s6-sort 1 ,
+.Xr s6-sync 1 ,
+.Xr s6-tail 1 ,
+.Xr s6-test 1 ,
+.Xr s6-touch 1 ,
+.Xr s6-true 1 ,
+.Xr s6-uniquename 1 ,
+.Xr s6-unquote 1 ,
+.Xr s6-unquote-filter 1 ,
+.Xr s6-update-symlinks 1 ,
+.Xr seekablepipe 1
+.Pp
+[1]
+.Lk https://skarnet.org/software/skalibs/libstddjb/tai.html#timestamp
+.Pp
+This man page is ported from the authoritative documentation at:
+.Lk https://skarnet.org/software/s6-portable-utils/s6-tai64ndiff.html
+.Sh AUTHORS
+.An Laurent Bercot
+.An Alexis Ao Mt flexibeast@gmail.com Ac (man page port)

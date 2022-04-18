@@ -1,0 +1,124 @@
+.Dd April 18, 2022
+.Dt S6-HIERCOPY 1
+.Os
+.Sh NAME
+.Nm s6-hiercopy
+.Nd copy a directory structure recursively
+.Sh SYNOPSIS
+.Nm
+.Ar source
+.Ar destination
+.Sh DESCRIPTION
+.Nm
+recursively copies
+.Ar source
+to
+.Ar destination ,
+which is created if it doesn't exist.
+The permissions are preserved.
+The owner and group are preserved if the user is the superuser.
+.Pp
+It exits 0 on success and 111 on temporary failure.
+.Pp
+Copying files and browsing through directories is one of Unix's
+weakest points, and
+.Nm
+is not meant to work around the problem; it's only a quick hack that I
+needed to boot my embedded platform.
+I originally planned to write the ultimate
+.Ql cp
+utility, portable and reliable and featureful and everything - while
+needing approximately a hundred times less resources than GNU
+.Ql cp
+does, of course.
+But I eventually dropped the idea: it's impossible to design, much
+less write, such a utility.
+Notably, you cannot make it reliable because Unix's set of filesystem
+management primitives is just too weak.
+It lacks a lot of atomic operations, and filesystem transactions.
+As a result,
+.Nm s6-hiercopy
+is a walking race condition and should
+.Sy absolutely not
+be considered instant when used in a multitasking environment.
+But then,
+.Ql cp
+shouldn't either.
+.Pp
+There is no standard way of creating device nodes on a filesystem, so
+any
+.Ql cp Ns
+-like utility is inherently non-portable.
+Fortunately, most systems still agree on the non-portable usages of
+the mknod specification[1], so things should work in practice.
+Consequently, the
+.Nm
+utility has been moved from
+s6-linux-utils[2] to s6-portable-utils.
+.Sh EXIT STATUS
+.Bl -tag -width x
+.It 111
+Temporary error.
+.It 100
+Permanent error, such as a misuse.
+.It 127
+Unable to execute program - not found.
+.It 126
+Unable to execute program - other reason.
+.El
+.Sh SEE ALSO
+.Xr s6-basename 1 ,
+.Xr s6-cat 1 ,
+.Xr s6-chmod 1 ,
+.Xr s6-chown 1 ,
+.Xr s6-clock 1 ,
+.Xr s6-cut 1 ,
+.Xr s6-dirname 1 ,
+.Xr s6-dumpenv 1 ,
+.Xr s6-echo 1 ,
+.Xr s6-env 1 ,
+.Xr s6-expr 1 ,
+.Xr s6-false 1 ,
+.Xr s6-format-filter 1 ,
+.Xr s6-grep 1 ,
+.Xr s6-head 1 ,
+.Xr s6-linkname 1 ,
+.Xr s6-ln 1 ,
+.Xr s6-ls 1 ,
+.Xr s6-maximumtime 1 ,
+.Xr s6-mkdir 1 ,
+.Xr s6-mkfifo 1 ,
+.Xr s6-nice 1 ,
+.Xr s6-nuke 1 ,
+.Xr s6-pause 1 ,
+.Xr s6-printenv 1 ,
+.Xr s6-quote 1 ,
+.Xr s6-quote-filter 1 ,
+.Xr s6-rename 1 ,
+.Xr s6-rmrf 1 ,
+.Xr s6-seq 1 ,
+.Xr s6-sleep 1 ,
+.Xr s6-sort 1 ,
+.Xr s6-sync 1 ,
+.Xr s6-tai64ndiff 1 ,
+.Xr s6-tail 1 ,
+.Xr s6-test 1 ,
+.Xr s6-touch 1 ,
+.Xr s6-true 1 ,
+.Xr s6-uniquename 1 ,
+.Xr s6-unquote 1 ,
+.Xr s6-unquote-filter 1 ,
+.Xr s6-update-symlinks 1 ,
+.Xr seekablepipe 1
+.Pp
+[1]
+.Lk https://pubs.opengroup.org/onlinepubs/9699919799/functions/mknod.html
+.Pp
+[2]
+.Lk https://skarnet.org/software/s6-linux-utils/
+.Pp
+This man page is ported from the authoritative documentation at:
+.Lk https://skarnet.org/software/s6-portable-utils/s6-hiercopy.html
+.Sh AUTHORS
+.An Laurent Bercot
+.An Alexis Ao Mt flexibeast@gmail.com Ac (man page port)

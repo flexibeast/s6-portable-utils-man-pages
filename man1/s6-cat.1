@@ -1,0 +1,88 @@
+.Dd April 16, 2022
+.Dt S6-CAT 1
+.Os
+.Sh NAME
+.Nm s6-cat
+.Nd copy stdin to stdout
+.Sh SYNOPSIS
+.Nm
+.Sh DESCRIPTION
+.Nm
+transfers data from stdin to stdout, until it receives EOF or gets
+killed.
+On systems that support it (as of 2.0.0.0, only Linux 2.6.17 or
+later),
+.Nm
+performs zero-copy transfer.
+.Sh EXIT STATUS
+.Bl -tag -width x
+.It 111
+Temporary error.
+.It 100
+Permanent error, such as a misuse.
+.It 127
+Unable to execute program - not found.
+.It 126
+Unable to execute program - other reason.
+.El
+.Sh SEE ALSO
+.Xr s6-basename 1 ,
+.Xr s6-chmod 1 ,
+.Xr s6-chown 1 ,
+.Xr s6-clock 1 ,
+.Xr s6-cut 1 ,
+.Xr s6-dirname 1 ,
+.Xr s6-dumpenv 1 ,
+.Xr s6-echo 1 ,
+.Xr s6-env 1 ,
+.Xr s6-expr 1 ,
+.Xr s6-false 1 ,
+.Xr s6-format-filter 1 ,
+.Xr s6-grep 1 ,
+.Xr s6-head 1 ,
+.Xr s6-hiercopy 1 ,
+.Xr s6-linkname 1 ,
+.Xr s6-ln 1 ,
+.Xr s6-ls 1 ,
+.Xr s6-maximumtime 1 ,
+.Xr s6-mkdir 1 ,
+.Xr s6-mkfifo 1 ,
+.Xr s6-nice 1 ,
+.Xr s6-nuke 1 ,
+.Xr s6-pause 1 ,
+.Xr s6-printenv 1 ,
+.Xr s6-quote 1 ,
+.Xr s6-quote-filter 1 ,
+.Xr s6-rename 1 ,
+.Xr s6-rmrf 1 ,
+.Xr s6-seq 1 ,
+.Xr s6-sleep 1 ,
+.Xr s6-sort 1 ,
+.Xr s6-sync 1 ,
+.Xr s6-tai64ndiff 1 ,
+.Xr s6-tail 1 ,
+.Xr s6-test 1 ,
+.Xr s6-touch 1 ,
+.Xr s6-true 1 ,
+.Xr s6-uniquename 1 ,
+.Xr s6-unquote 1 ,
+.Xr s6-unquote-filter 1 ,
+.Xr s6-update-symlinks 1 ,
+.Xr seekablepipe 1
+.Pp
+[1]
+.Lk https://pubs.opengroup.org/onlinepubs/9699919799/utilities/cat.html
+.Pp
+This man page is ported from the authoritative documentation at:
+.Lk https://skarnet.org/software/s6-portable-utils/s6-cat.html
+.Sh STANDARDS
+.Nm
+.Em is not
+suitable as a
+.Pa cat Ns
+[1] program conforming to
+.St -susv4 /
+.St -p1003.1-2008 .
+.Sh AUTHORS
+.An Laurent Bercot
+.An Alexis Ao Mt flexibeast@gmail.com Ac (man page port)

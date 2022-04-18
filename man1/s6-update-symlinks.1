@@ -1,0 +1,193 @@
+.Dd April 18, 2022
+.Dt S6-UPDATE-SYMLINKS 1
+.Os
+.Sh NAME
+.Nm s6-update-symlinks
+.Nd link the content of several similar directory trees under a single tree
+.Sh SYNOPSIS
+.Nm
+.Ar d
+.Ar src1
+.Ar src2
+.Op Ar ...
+.Sh DESCRIPTION
+.Nm
+links the content of several similar directory trees under a single
+tree.
+Its main use is to replace search paths like
+.Ev PATH
+or
+.Ev MANPATH ,
+by creating a unique access tree based on the source trees.
+Name conflicts are solved by giving precedence to the last named
+directory.
+Subdirectories are created exactly as needed; what can be shared is
+shared.
+.Pp
+.Nm
+is useful when one wants to combine a logical package system, like Dan
+Bernstein's
+.Ql /package Ns
+[1] and
+.Ql /command Ns
+[2], with physical filesystem constraints, like
+.Pa / ,
+.Pa /usr
+and
+.Pa /usr/local
+on separate filesystems.
+.Pp
+.Ar d
+is the destination directory.
+It will be created if it doesn't exist.
+.Pp
+.Ar src1 ,
+.Ar src2 ,
+.Ar ...
+are the directory containing the files to be linked.
+.Ar d
+and
+.Ar srcn
+.Em must
+be
+.Em absolute
+paths, else
+.Nm
+refuses to run.
+Using relative paths doesn't make sense here, anyway.
+.Pp
+If
+.Ar src2
+is empty, then
+.Ar d
+becomes a link to
+.Ar src1 .
+.Pp
+If
+.Ar src1
+is empty or entirely overridden by
+.Ar src2 ,
+then
+.Ar d
+becomes a link to
+.Ar src2 .
+.Pp
+If
+.Ar src1 Ns / Ns file
+exists but not
+.Ar src2 Ns / Ns file ,
+then
+.Ar d
+becomes a real directory and
+.Ar d Ns / Ns file
+a link to
+.Ar src1 Ns / Ns file .
+Then if
+.Ar src2 Ns / Ns file2
+exists,
+.Ar d Ns / Ns file2
+links to it.
+.Pp
+And so on with other
+.Ar src
+directories, and subdirs.
+.Pp
+If
+.Nm
+manages to performs all the requested tasks, it exits 0.
+If it encounters a hard error, it exits 111.
+If it is unable to resolve a conflict between given sources, it exits
+100.
+.Sh EXIT STATUS
+.Bl -tag -width x
+.It 100
+Unable to resolve conflict between sources.
+.It 111
+Temporary error.
+.It 100
+Permanent error, such as a misuse.
+.It 127
+Unable to execute program - not found.
+.It 126
+Unable to execute program - other reason.
+.El
+.Sh EXAMPLES
+.Dl s6-update-symlinks /command /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin
+.sp
+makes all files under
+.Pa /bin ,
+\&...,
+.Pa /usr/local/sbin
+available under
+.Pa /command .
+The programs linked are the same as the ones that would be accessed with
+.Ev PATH Ns
+="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin".
+.Pp
+.Dl s6-update-symlinks /package /initrd/package /slash/package /usr/package /usr/local/package
+.sp
+builds a
+.Pa /package
+hierarchy with what it finds in the listed directories.
+This allows oddities like, for instance, having the daemontools sources in
+.Pa /usr/package/admin/daemontools/src ,
+and the daemontools binaries in
+.Pa /initrd/package/admin/daemontools/bin ,
+but accessing both through
+.Pa /package/admin/daemontools/ .
+.Sh SEE ALSO
+.Xr s6-basename 1 ,
+.Xr s6-cat 1 ,
+.Xr s6-chmod 1 ,
+.Xr s6-chown 1 ,
+.Xr s6-clock 1 ,
+.Xr s6-cut 1 ,
+.Xr s6-dirname 1 ,
+.Xr s6-dumpenv 1 ,
+.Xr s6-echo 1 ,
+.Xr s6-env 1 ,
+.Xr s6-expr 1 ,
+.Xr s6-false 1 ,
+.Xr s6-format-filter 1 ,
+.Xr s6-grep 1 ,
+.Xr s6-head 1 ,
+.Xr s6-hiercopy 1 ,
+.Xr s6-linkname 1 ,
+.Xr s6-ln 1 ,
+.Xr s6-ls 1 ,
+.Xr s6-maximumtime 1 ,
+.Xr s6-mkdir 1 ,
+.Xr s6-mkfifo 1 ,
+.Xr s6-nice 1 ,
+.Xr s6-nuke 1 ,
+.Xr s6-pause 1 ,
+.Xr s6-printenv 1 ,
+.Xr s6-quote 1 ,
+.Xr s6-quote-filter 1 ,
+.Xr s6-rename 1 ,
+.Xr s6-rmrf 1 ,
+.Xr s6-seq 1 ,
+.Xr s6-sleep 1 ,
+.Xr s6-sort 1 ,
+.Xr s6-sync 1 ,
+.Xr s6-tai64ndiff 1 ,
+.Xr s6-tail 1 ,
+.Xr s6-test 1 ,
+.Xr s6-touch 1 ,
+.Xr s6-true 1 ,
+.Xr s6-uniquename 1 ,
+.Xr s6-unquote 1 ,
+.Xr s6-unquote-filter 1 ,
+.Xr seekablepipe 1
+.Pp
+[1]
+.Lk https://cr.yp.to/slashpackage.html
+.Pp
+[2]
+.Lk https://cr.yp.to/slashcommand.html
+.Pp
+This man page is ported from the authoritative documentation at:
+.Lk https://skarnet.org/software/s6-portable-utils/s6-update-symlinks.html
+.Sh AUTHORS
+.An Laurent Bercot
+.An Alexis Ao Mt flexibeast@gmail.com Ac (man page port)

@@ -1,0 +1,94 @@
+.Dd April 17, 2022
+.Dt S6-TAIL 1
+.Os
+.Sh NAME
+.Nm s6-tail
+.Nd print a file or its stdin after a certain number of bytes or lines
+.Sh SYNOPSIS
+.Nm
+.Op Fl n Ar lines | Fl c Ar chars
+.Op Ar file
+.Sh DESCRIPTION
+.Nm
+acts as the generic
+.Pa tail\&
+utility[1], except that the
+.Fl f
+option is not supported.
+.Sh EXIT STATUS
+.Bl -tag -width x
+.It 111
+Temporary error.
+.It 100
+Permanent error, such as a misuse.
+.It 127
+Unable to execute program - not found.
+.It 126
+Unable to execute program - other reason.
+.El
+.Sh SEE ALSO
+.Xr s6-basename 1 ,
+.Xr s6-cat 1 ,
+.Xr s6-chmod 1 ,
+.Xr s6-chown 1 ,
+.Xr s6-clock 1 ,
+.Xr s6-cut 1 ,
+.Xr s6-dirname 1 ,
+.Xr s6-dumpenv 1 ,
+.Xr s6-echo 1 ,
+.Xr s6-env 1 ,
+.Xr s6-expr 1 ,
+.Xr s6-false 1 ,
+.Xr s6-format-filter 1 ,
+.Xr s6-grep 1 ,
+.Xr s6-head 1 ,
+.Xr s6-hiercopy 1 ,
+.Xr s6-linkname 1 ,
+.Xr s6-ln 1 ,
+.Xr s6-ls 1 ,
+.Xr s6-maximumtime 1 ,
+.Xr s6-mkdir 1 ,
+.Xr s6-mkfifo 1 ,
+.Xr s6-nice 1 ,
+.Xr s6-nuke 1 ,
+.Xr s6-pause 1 ,
+.Xr s6-printenv 1 ,
+.Xr s6-quote 1 ,
+.Xr s6-quote-filter 1 ,
+.Xr s6-rename 1 ,
+.Xr s6-rmrf 1 ,
+.Xr s6-seq 1 ,
+.Xr s6-sleep 1 ,
+.Xr s6-sort 1 ,
+.Xr s6-sync 1 ,
+.Xr s6-tai64ndiff 1 ,
+.Xr s6-test 1 ,
+.Xr s6-touch 1 ,
+.Xr s6-true 1 ,
+.Xr s6-uniquename 1 ,
+.Xr s6-unquote 1 ,
+.Xr s6-unquote-filter 1 ,
+.Xr s6-update-symlinks 1 ,
+.Xr seekablepipe 1
+.Pp
+[1]
+.Lk https://pubs.opengroup.org/onlinepubs/9699919799/utilities/tail.html
+.Pp
+This man page is ported from the authoritative documentation at:
+.Lk https://skarnet.org/software/s6-portable-utils/s6-tail.html
+.Sh STANDARDS
+.Nm
+.Em is not
+suitable as a
+.Pa tail Ns
+[1] program conforming to
+.St -susv4 /
+.St -p1003.1-2008 ;
+however, if you are never using the
+.Fl f
+functionality,
+.Nm
+scrupulously follows the rest of the specification.
+.Sh AUTHORS
+.An Laurent Bercot
+.An Alexis Ao Mt flexibeast@gmail.com Ac (man page port)

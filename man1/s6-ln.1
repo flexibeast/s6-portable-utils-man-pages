@@ -1,0 +1,136 @@
+.Dd April 17, 2022
+.Dt S6-LN 1
+.Os
+.Sh NAME
+.Nm s6-ln
+.Nd create a link to a file
+.Sh SYNOPSIS
+.Nm
+.Op Fl n
+.Op Fl s
+.Op Fl f
+.Op Fl L
+.Op Fl P
+.Ar source
+.Ar target
+.Sh DESCRIPTION
+.Nm
+acts as the generic
+.Pa ln Ns
+[1] utility.
+.Sh OPTIONS
+.Bl -tag -width x
+.It Fl s
+Create a symbolic link instead of a hard link.
+.It Fl f
+Force replacement of an existing
+.Ar target .
+.It Fl L
+Link targets of symlinks in
+.Ar source... .
+.It Fl P
+Link symlinks in
+.Ar source...
+themselves.
+.It Fl n
+If
+.Ar target
+is a symlink to a directory, replace it instead of adding a link in
+the directory.
+.El
+.Sh EXIT STATUS
+.Bl -tag -width x
+.It 111
+Temporary error.
+.It 100
+Permanent error, such as a misuse.
+.It 127
+Unable to execute program - not found.
+.It 126
+Unable to execute program - other reason.
+.El
+.Sh SEE ALSO
+.Xr s6-basename 1 ,
+.Xr s6-cat 1 ,
+.Xr s6-chmod 1 ,
+.Xr s6-chown 1 ,
+.Xr s6-clock 1 ,
+.Xr s6-cut 1 ,
+.Xr s6-dirname 1 ,
+.Xr s6-dumpenv 1 ,
+.Xr s6-echo 1 ,
+.Xr s6-env 1 ,
+.Xr s6-expr 1 ,
+.Xr s6-false 1 ,
+.Xr s6-format-filter 1 ,
+.Xr s6-grep 1 ,
+.Xr s6-head 1 ,
+.Xr s6-hiercopy 1 ,
+.Xr s6-linkname 1 ,
+.Xr s6-ls 1 ,
+.Xr s6-maximumtime 1 ,
+.Xr s6-mkdir 1 ,
+.Xr s6-mkfifo 1 ,
+.Xr s6-nice 1 ,
+.Xr s6-nuke 1 ,
+.Xr s6-pause 1 ,
+.Xr s6-printenv 1 ,
+.Xr s6-quote 1 ,
+.Xr s6-quote-filter 1 ,
+.Xr s6-rename 1 ,
+.Xr s6-rmrf 1 ,
+.Xr s6-seq 1 ,
+.Xr s6-sleep 1 ,
+.Xr s6-sort 1 ,
+.Xr s6-sync 1 ,
+.Xr s6-tai64ndiff 1 ,
+.Xr s6-tail 1 ,
+.Xr s6-test 1 ,
+.Xr s6-touch 1 ,
+.Xr s6-true 1 ,
+.Xr s6-uniquename 1 ,
+.Xr s6-unquote 1 ,
+.Xr s6-unquote-filter 1 ,
+.Xr s6-update-symlinks 1 ,
+.Xr seekablepipe 1
+.Pp
+[1]
+.Lk https://pubs.opengroup.org/onlinepubs/9699919799/utilities/ln.html
+.Pp
+This man page is ported from the authoritative documentation at:
+.Lk https://skarnet.org/software/s6-portable-utils/s6-ln.html
+.Sh STANDARDS
+.Nm
+.Em would be
+suitable as a
+.Pa ln Ns
+[1] program conforming to
+.St -susv4 /
+.St -p1003.1-2008 ,
+except that POSIX mandates that a preexisting
+.Ar target
+must first be
+.Xr unlink 2 Ns
+ed and then
+.Xr link 2 Ns
+ed /
+.Xr symlink 2 Ns
+ed, which prevents atomic replacements.
+.Pp
+.Nm
+aims to be reliable and allow for atomic replacements, so it deviates
+from POSIX on that point: when
+.Ar target
+exists and needs to be replaced,
+.Nm
+first creates a (sym)link to a unique temporary name, then
+.Xr rename 2 Ns
+s the temporary name to
+.Ar target .
+This behaviour makes sure that
+.Ar target
+is atomically replaced - there's no point in time where it does not
+exist.
+.Sh AUTHORS
+.An Laurent Bercot
+.An Alexis Ao Mt flexibeast@gmail.com Ac (man page port)

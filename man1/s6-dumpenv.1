@@ -1,0 +1,116 @@
+.Dd April 16, 2022
+.Dt S6-DUMPENV 1
+.Os
+.Sh NAME
+.Nm s6-dumpenv
+.Nd store environment variables into a directory
+.Sh SYNOPSIS
+.Nm
+.Op Fl N | Fl n
+.Op Fl m Ar mode
+.Ar dir
+.Sh DESCRIPTION
+.Nm
+creates the directory
+.Ar dir
+if it does not exist yet.
+.Pp
+For every environment variable
+.Ql x
+with value
+.Ql y
+that it has, it creates a file
+.Pa dir Ns / Ns x
+containing
+.Ql y .
+.Pp
+It then exits 0.
+.Pp
+A program
+.Ar prog
+can be run with the environment in
+.Ar dir
+by using
+.Xr s6-envdir 1 :
+.Dl s6-envdir -fn -- Ar dir Ar prog
+.Sh OPTIONS
+.Bl -tag -width x
+.It Fl N
+Chomp.
+Write the environment variables with an extra newline at the
+end, so the environment can be retrieved via
+.Ql s6-envdir -Lf Ar dir .
+.It Fl n
+Write the environment variables as is; the environment will be
+retrieved via
+.Ql s6-envdir -Lfn Ar dir .
+This is the default.
+.It Fl m Ar mode
+Create
+.Ar dir
+with mode
+.Ar mode
+if it doesn't exist yet.
+Default is 0755.
+.El
+.Sh EXIT STATUS
+.Bl -tag -width x
+.It 111
+Temporary error.
+.It 100
+Permanent error, such as a misuse.
+.It 127
+Unable to execute program - not found.
+.It 126
+Unable to execute program - other reason.
+.El
+.Sh SEE ALSO
+.Xr s6-basename 1 ,
+.Xr s6-cat 1 ,
+.Xr s6-chmod 1 ,
+.Xr s6-chown 1 ,
+.Xr s6-clock 1 ,
+.Xr s6-cut 1 ,
+.Xr s6-dirname 1 ,
+.Xr s6-echo 1 ,
+.Xr s6-env 1 ,
+.Xr s6-expr 1 ,
+.Xr s6-false 1 ,
+.Xr s6-format-filter 1 ,
+.Xr s6-grep 1 ,
+.Xr s6-head 1 ,
+.Xr s6-hiercopy 1 ,
+.Xr s6-linkname 1 ,
+.Xr s6-ln 1 ,
+.Xr s6-ls 1 ,
+.Xr s6-maximumtime 1 ,
+.Xr s6-mkdir 1 ,
+.Xr s6-mkfifo 1 ,
+.Xr s6-nice 1 ,
+.Xr s6-nuke 1 ,
+.Xr s6-pause 1 ,
+.Xr s6-printenv 1 ,
+.Xr s6-quote 1 ,
+.Xr s6-quote-filter 1 ,
+.Xr s6-rename 1 ,
+.Xr s6-rmrf 1 ,
+.Xr s6-seq 1 ,
+.Xr s6-sleep 1 ,
+.Xr s6-sort 1 ,
+.Xr s6-sync 1 ,
+.Xr s6-tai64ndiff 1 ,
+.Xr s6-tail 1 ,
+.Xr s6-test 1 ,
+.Xr s6-touch 1 ,
+.Xr s6-true 1 ,
+.Xr s6-uniquename 1 ,
+.Xr s6-unquote 1 ,
+.Xr s6-unquote-filter 1 ,
+.Xr s6-update-symlinks 1 ,
+.Xr seekablepipe 1
+.Pp
+This man page is ported from the authoritative documentation at:
+.Lk https://skarnet.org/software/s6-portable-utils/s6-dumpenv.html
+.Sh AUTHORS
+.An Laurent Bercot
+.An Alexis Ao Mt flexibeast@gmail.com Ac (man page port)

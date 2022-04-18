@@ -1,0 +1,130 @@
+.Dd April 18, 2022
+.Dt S6-UNQUOTE-FILTER 1
+.Os
+.Sh NAME
+.Nm s6-unquote-filter
+.Nd read quoted strings on stdin, unquote them and write the results to stdout
+.Sh SYNOPSIS
+.Nm
+.Op Fl q | Fl Q | Fl v | Fl w
+.Op Fl d Ar delim
+.Sh DESCRIPTION
+.Nm
+reads lines on stdin.
+It exits 0 on EOF.
+.Pp
+It expects read lines to follow the syntax of
+.Xr s6-quote 1 Ap
+s output strings.
+.Pp
+Depending on the strictness options, it prints various warning or
+error messages to stderr if it cannot properly unquote lines.
+In the very strict mode, it exits 100 on the first unquoting error.
+.Pp
+If it is successful at unquoting, it prints the resulting lines to
+stdout.
+.Pp
+Quoted strings can be produced via the
+.Xr s6-quote 1
+or
+.Xr s6-quote-filter 1
+programs.
+.Sh OPTIONS
+.Bl -tag -width x
+.It Fl d Ar delim
+A list of characters that will be considered as delimiters
+.Po
+to start and end the quoted string
+.Pc .
+By default, only the double quote is such a character.
+If
+.Ar delim
+is the empty string,
+.Nm
+interprets
+.Ar string
+as non-delimited, only escaped
+.Po
+i.e. for instance the result of some
+.Ql s6-quote-filter -u
+operation
+.Pc .
+.It Fl q
+Loose/quiet mode.
+.Nm
+will silently accommodate errors.
+.It Fl Q
+Normal mode.
+This is the default.
+.Nm
+will warn on errors.
+.It Fl v
+Strict/verbose mode.
+.Nm
+will warn loudly on errors, with many details.
+.It Fl w
+Very strict mode.
+.Nm
+will complain and die on the first unquoting error it encounters.
+.El
+.Sh EXIT STATUS
+.Bl -tag -width x
+.It 111
+Temporary error.
+.It 100
+Permanent error, such as a misuse.
+.It 127
+Unable to execute program - not found.
+.It 126
+Unable to execute program - other reason.
+.El
+.Sh SEE ALSO
+.Xr s6-basename 1 ,
+.Xr s6-cat 1 ,
+.Xr s6-chmod 1 ,
+.Xr s6-chown 1 ,
+.Xr s6-clock 1 ,
+.Xr s6-cut 1 ,
+.Xr s6-dirname 1 ,
+.Xr s6-dumpenv 1 ,
+.Xr s6-echo 1 ,
+.Xr s6-env 1 ,
+.Xr s6-expr 1 ,
+.Xr s6-false 1 ,
+.Xr s6-format-filter 1 ,
+.Xr s6-grep 1 ,
+.Xr s6-head 1 ,
+.Xr s6-hiercopy 1 ,
+.Xr s6-linkname 1 ,
+.Xr s6-ln 1 ,
+.Xr s6-ls 1 ,
+.Xr s6-maximumtime 1 ,
+.Xr s6-mkdir 1 ,
+.Xr s6-mkfifo 1 ,
+.Xr s6-nice 1 ,
+.Xr s6-nuke 1 ,
+.Xr s6-pause 1 ,
+.Xr s6-printenv 1 ,
+.Xr s6-quote 1 ,
+.Xr s6-quote-filter 1 ,
+.Xr s6-rename 1 ,
+.Xr s6-rmrf 1 ,
+.Xr s6-seq 1 ,
+.Xr s6-sleep 1 ,
+.Xr s6-sort 1 ,
+.Xr s6-sync 1 ,
+.Xr s6-tai64ndiff 1 ,
+.Xr s6-tail 1 ,
+.Xr s6-test 1 ,
+.Xr s6-touch 1 ,
+.Xr s6-true 1 ,
+.Xr s6-uniquename 1 ,
+.Xr s6-unquote 1 ,
+.Xr s6-update-symlinks 1 ,
+.Xr seekablepipe 1
+.Pp
+This man page is ported from the authoritative documentation at:
+.Lk https://skarnet.org/software/s6-portable-utils/s6-unquote-filter.html
+.Sh AUTHORS
+.An Laurent Bercot
+.An Alexis Ao Mt flexibeast@gmail.com Ac (man page port)
