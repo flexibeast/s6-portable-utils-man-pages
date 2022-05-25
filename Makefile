@@ -46,7 +46,8 @@ man1_targets = \
 	s6-uniquename.1 \
 	s6-unquote.1 \
 	s6-unquote-filter.1 \
-	s6-update-symlinks.1
+	s6-update-symlinks.1 \
+	seekablepipe.1
 
 all:
 	@echo "Nothing to be done. Ready for 'make install'."
