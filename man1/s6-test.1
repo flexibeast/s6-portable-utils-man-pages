@@ -1,4 +1,4 @@
-.Dd April 18, 2022
+.Dd June 15, 2022
 .Dt S6-TEST 1
 .Os
 .Sh NAME
@@ -30,17 +30,35 @@ The standard states that
 Tests whether the
 .Ar VAR
 variable is defined in the current environment.
+.It Ar string No =~ Ar pattern
+Tries to match
+.Ar string
+against extended regular expression
+.Ar pattern .
+True if any part of
+.Ar string
+matches
+.Ar pattern ;
+in order to match whole strings, you must anchor
+.Ar pattern
+with
+.Ql ^
+and
+.Ql $
+markers.
 .El
 .Sh EXIT STATUS
 .Bl -tag -width x
-.It 111
-Temporary error.
+.It 0
+The test is true.
+.It 1
+The test is false.
 .It 100
-Permanent error, such as a misuse.
-.It 127
-Unable to execute program - not found.
-.It 126
-Unable to execute program - other reason.
+Wrong usage.
+.It 101
+Internal error (should never happen, warrants a bug-report).
+.It 111
+System call failure.
 .El
 .Sh SEE ALSO
 .Xr s6-basename 1 ,
