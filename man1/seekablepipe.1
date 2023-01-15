@@ -1,4 +1,4 @@
-.Dd April 18, 2022
+.Dd January 15, 2023
 .Dt SEEKABLEPIPE 1
 .Os
 .Sh NAME
@@ -8,16 +8,16 @@
 .Ar writer | Nm Ar tmpfile Ar reader Op Ar args...
 .Sh DESCRIPTION
 .Nm
-writes 
+writes
 .Ar writer Ap
-s output to 
+s output to
 .Ar tmpfile ,
 which is unlinked as soon as it is created.
 Then it
 .Xr exec 3 Ns
 s into
 .Ar reader ,
-reading from a file descriptor on 
+reading from a file descriptor on
 .Ar tmpfile .
 .Sh EXIT STATUS
 .Bl -tag -width x
@@ -67,7 +67,6 @@ Unable to execute program - other reason.
 .Xr s6-sync 1 ,
 .Xr s6-tai64ndiff 1 ,
 .Xr s6-tail 1 ,
-.Xr s6-test 1 ,
 .Xr s6-touch 1 ,
 .Xr s6-true 1 ,
 .Xr s6-uniquename 1 ,
