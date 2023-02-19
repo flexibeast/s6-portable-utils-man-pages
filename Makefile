@@ -40,7 +40,6 @@ man1_targets = \
 	s6-sync.1 \
 	s6-tai64ndiff.1 \
 	s6-tail.1 \
-	s6-test.1 \
 	s6-touch.1 \
 	s6-true.1 \
 	s6-uniquename.1 \
